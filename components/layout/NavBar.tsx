@@ -5,6 +5,9 @@ import Container from "../ui/Container";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { Button } from "../ui/button";
+import SearchInput from "../ui/SearchInput";
+import { ModeToggle } from "../theme-toggle";
+import { NavMenu } from "./NavMenu";
 
 function NavBar() {
 	const router = useRouter();
@@ -20,8 +23,9 @@ function NavBar() {
 					<Image src="/beach1.svg" alt="logo" width="30" height="30" />
 					<div className="font-bold text-xl">Relaxa</div>
 				</div>
+                <SearchInput/>
 				<div className="flex items-center gap-3">
-					<div>theme</div>
+					<div><ModeToggle/> <NavMenu/> </div>
 					<UserButton afterSignOutUrl="/" />
 					{!userId && (
 						<>

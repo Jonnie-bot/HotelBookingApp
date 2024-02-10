@@ -1,0 +1,90 @@
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Hotel {
+  id       String    @id @default(auto()) @map("_id") @db.ObjectId
+  userId     String    @unique
+  title    String 
+  description     String 
+  image   String      
+  country String    
+  state String
+  city String
+  locationDescription String
+  gym Boolean @default(false)
+  spa Boolean @default(false)
+  bar Boolean @default(false)
+  laudry Boolean @default(false)
+  restaurant Boolean @default(false)
+  shopping Boolean @default(false)
+  bikeRental Boolean @default(false)
+  freeWifi Boolean @default(false)
+  movieNights Boolean @default(false)
+  swimmingPool Boolean @default(false)
+  coffeeShop Boolean @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt()
+  rooms Room[]
+  bookings Booking[]
+
+}
+
+model Room {
+  id      String   @id @default(auto()) @map("_id") @db.ObjectId
+  title   String   
+  description    String 
+  bedCount Int @default(0)
+  guestCount Int @default(0)
+  bathroomCount Int @default(0)
+  kingBed Int @default(0)
+  queenBed Int @default(0)
+  image String
+  breakfastPrice Int
+  roomPrice Int
+  roomService Boolean @default(false)
+  TV Boolean @default(false)
+  balcony Boolean @default(false)
+  freeWifi Boolean @default(false)
+  cityView Boolean @default(false)
+  oceanView Boolean @default(false)
+  forestView Boolean @default(false)
+  mountainView Boolean @default(false)
+  airCondition Boolean @default(false)
+  soundProofed Boolean @default(false)
+
+  Hotel Hotel? @relation(fields: [hotelId], references: [id])
+  hotelId String @db.ObjectId
+
+  Booking Booking[]
+
+}
+
+model Booking {
+  id      String @id @default(auto()) @map("_id") @db.ObjectId
+  userName String
+  roomId    String @db.ObjectId
+  hotelId String @db.ObjectId
+  hotelOwnerId String
+  startDate DateTime
+  endDate DateTime
+  breakfastIncluded Boolean
+  currency String
+  totalPrice Int
+  paymentStatus Boolean @default(false)
+  paymentIntentId String @unique
+  bookedAt DateTime @default(now())
+
+
+  Hotel   Hotel? @relation(fields: [hotelId], references: [id])
+  Room   Room? @relation(fields: [roomId], references: [id])
+
+
+}
+  
+
